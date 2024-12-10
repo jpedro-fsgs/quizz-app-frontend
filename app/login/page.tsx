@@ -11,12 +11,13 @@ export default function Login() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     try {
-      const response = await fetch('http://localhost:8080/api/auth/login', {
+      const response = await fetch(`http://${window.location.hostname}:8080/api/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ email, password }),
+        // credentials: 'include', 
       })
       if (response.ok) {
         const data = await response.json()
