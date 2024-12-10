@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/app/components/ui/card"
+import { Button } from "@/app/components/ui/button"
 
 interface Quiz {
   id: string
@@ -17,7 +17,7 @@ export default function Quizzes() {
   useEffect(() => {
     const fetchQuizzes = async () => {
       try {
-        const response = await fetch(`http://${window.location.hostname}:8080/api/quizzes/all`)
+        const response = await fetch('http://localhost:8080/api/quizzes/all')
         if (response.ok) {
           const data = await response.json()
           setQuizzes(data)

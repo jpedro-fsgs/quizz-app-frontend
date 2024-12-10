@@ -2,10 +2,10 @@
 
 import { useState, useEffect } from 'react'
 import { useParams, useRouter } from 'next/navigation'
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import { Label } from "@/components/ui/label"
+import { Button } from "@/app/components/ui/button"
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/app/components/ui/card"
+import { RadioGroup, RadioGroupItem } from "@/app/components/ui/radio-group"
+import { Label } from "@/app/components/ui/label"
 
 interface Option {
   index: number
@@ -38,7 +38,7 @@ export default function PlayQuiz() {
   useEffect(() => {
     const fetchQuiz = async () => {
       try {
-        const response = await fetch(`http://${window.location.hostname}:8080/api/quizzes/${params.id}`, {
+        const response = await fetch(`http://localhost:8080/api/quizzes/${params.id}`, {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`,
           },
