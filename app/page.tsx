@@ -1,15 +1,22 @@
+import Link from 'next/link'
+import { Button } from "@/components/ui/button"
+
 export default function Home() {
   return (
-    <div className="text-center">
-      <h1 className="text-4xl font-bold mb-4">Welcome to Quiz App</h1>
-      <p className="text-xl mb-8">Test your knowledge with our quizzes!</p>
-      <div className="space-x-4">
-        <a href="/quizzes" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+    <div className="text-center py-20">
+      <h1 className="text-5xl font-bold mb-6 text-primary">Welcome to Quiz App</h1>
+      <p className="text-2xl mb-8 text-muted-foreground">Test your knowledge with our exciting quizzes!</p>
+      <div className="space-y-4 md:space-y-0 md:space-x-4">
+        <Link href="/quizzes" passHref>
+          <Button variant="default" size="lg" className="text-lg px-8 py-6">
           View Quizzes
-        </a>
-        <a href="/create-quiz" className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-          Create Quiz
-        </a>
+          </Button>
+        </Link>
+        <Link href="/create-quiz" passHref>
+          <Button variant="accent" size="lg" className="text-lg px-8 py-6">
+            Create a Quiz
+          </Button>
+        </Link>
       </div>
     </div>
   )

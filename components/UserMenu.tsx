@@ -1,8 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import { useAuth } from '../contexts/AuthContext'
-import { Button } from "@/app/components/ui/button"
+import { useAuth } from '../app/contexts/AuthContext'
+import { Button } from "./ui/button"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,8 +10,8 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/app/components/ui/dropdown-menu"
-import { Avatar, AvatarFallback, AvatarImage } from "@/app/components/ui/avatar"
+} from "./ui/dropdown-menu"
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
 import { useRouter } from 'next/navigation'
 
 export default function UserMenu() {

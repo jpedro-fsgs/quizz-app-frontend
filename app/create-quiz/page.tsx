@@ -48,14 +48,14 @@ export default function CreateQuiz() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    const userId = localStorage.getItem('userId')
-    if (!userId) {
-      console.error('User ID not found')
-      return
-    }
+    // const userId = localStorage.getItem('userId')
+    // if (!userId) {
+    //   console.error('User ID not found')
+    //   return
+    // }
 
     const quizData = {
-      userId,
+      // userId,
       title,
       description,
       questions: questions.map(q => ({

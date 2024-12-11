@@ -2,10 +2,10 @@
 
 import { useState, useEffect } from 'react'
 import { useParams, useRouter } from 'next/navigation'
-import { Button } from "@/app/components/ui/button"
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/app/components/ui/card"
-import { RadioGroup, RadioGroupItem } from "@/app/components/ui/radio-group"
-import { Label } from "@/app/components/ui/label"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import { Label } from "@/components/ui/label"
 
 interface Option {
   index: number
@@ -122,7 +122,7 @@ export default function PlayQuiz() {
         <RadioGroup value={selectedAnswer?.toString()} onValueChange={(value) => handleAnswerSelection(parseInt(value))}>
           {currentQuestion.options.map((option, index) => (
             <div key={index} className="flex items-center space-x-2 mb-2">
-              <RadioGroupItem value={index.toString()} id={`option-${index}`} />
+              <RadioGroupItem value={index.toString()} id={`${currentQuestionIndex}-option-${index}`} />
               <Label htmlFor={`option-${index}`}>{option.option}</Label>
             </div>
           ))}
