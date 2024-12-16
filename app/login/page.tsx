@@ -8,6 +8,8 @@ import { Input } from "../../components/ui/input"
 import { Label } from "../../components/ui/label"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../../components/ui/card"
 
+const URL = process.env.API_URL
+
 export default function Login() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -19,7 +21,7 @@ export default function Login() {
     e.preventDefault()
     setError('')
     try {
-      const response = await fetch('http://localhost:8080/api/auth/login', {
+      const response = await fetch(URL + '/api/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

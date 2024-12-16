@@ -11,13 +11,15 @@ interface Quiz {
   description: string
 }
 
+const URL = process.env.API_URL
+
 export default function Quizzes() {
   const [quizzes, setQuizzes] = useState<Quiz[]>([])
 
   useEffect(() => {
     const fetchQuizzes = async () => {
       try {
-        const response = await fetch('http://localhost:8080/api/quizzes/all')
+        const response = await fetch(URL + `:8080/api/quizzes/all`)
         if (response.ok) {
           const data = await response.json()
           setQuizzes(data)

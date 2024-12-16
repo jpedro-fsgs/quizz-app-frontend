@@ -26,6 +26,8 @@ interface Quiz {
   questions: Question[]
 }
 
+const URL = process.env.API_URL
+
 export default function PlayQuiz() {
   const params = useParams()
   const router = useRouter()
@@ -38,11 +40,7 @@ export default function PlayQuiz() {
   useEffect(() => {
     const fetchQuiz = async () => {
       try {
-        const response = await fetch(`http://localhost:8080/api/quizzes/${params.id}`, {
-          headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`,
-          },
-        })
+        const response = await fetch(URL + `/api/quizzes/${params.id}`)
         if (response.ok) {
           const data = await response.json()
           setQuiz(data)
@@ -51,6 +49,7 @@ export default function PlayQuiz() {
         }
       } catch (error) {
         console.error('Error fetching quiz:', error)
+        alert('Error fetching quiz:' + error)
       }
     }
 

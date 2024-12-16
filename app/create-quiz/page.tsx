@@ -9,6 +9,8 @@ interface Question {
   answerIndex: number
 }
 
+const URL = process.env.API_URL
+
 export default function CreateQuiz() {
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
@@ -66,7 +68,7 @@ export default function CreateQuiz() {
     }
 
     try {
-      const response = await fetch('http://localhost:8080/api/quizzes/create', {
+      const response = await fetch(URL + '/api/quizzes/create', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
