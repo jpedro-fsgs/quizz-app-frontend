@@ -13,6 +13,7 @@ import {
 } from "./ui/dropdown-menu"
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 
 export default function UserMenu() {
   const { user, logout } = useAuth()
@@ -44,11 +45,11 @@ export default function UserMenu() {
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
-          Profile
+        <DropdownMenuItem asChild>
+          <Link href="/profile">Profile</Link>
         </DropdownMenuItem>
-        <DropdownMenuItem>
-          Settings
+        <DropdownMenuItem asChild>
+          <Link href="/settings">Settings</Link>
         </DropdownMenuItem>
         <DropdownMenuItem onClick={handleLogout}>
           Log out
