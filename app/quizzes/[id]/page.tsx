@@ -6,25 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label"
-
-interface Option {
-  index: number
-  option: string
-  isCorrect: boolean
-}
-
-interface Question {
-  question: string
-  options: Option[]
-  answerIndex: number
-}
-
-interface Quiz {
-  id: string
-  title: string
-  description: string
-  questions: Question[]
-}
+import { Quiz } from "@/interfaces/quiz" // Import the Quiz interface
 
 const URL = process.env.API_URL
 
@@ -119,12 +101,16 @@ export default function PlayQuiz() {
       <CardContent>
         <h2 className="text-xl font-semibold mb-4">{currentQuestion.question}</h2>
         <RadioGroup value={selectedAnswer?.toString()} onValueChange={(value) => handleAnswerSelection(parseInt(value))}>
-          {currentQuestion.options.map((option, index) => (
+            {currentQuestion.options.map((option, index) => (
             <div key={index} className="flex items-center space-x-2 mb-2">
-              <RadioGroupItem value={index.toString()} id={`${currentQuestionIndex}-option-${index}`} />
-              <Label htmlFor={`option-${index}`}>{option.option}</Label>
+              <RadioGroupItem 
+              value={`${index.toString()}`} 
+              id={`${currentQuestionIndex}-option-${index}`} 
+              checked={selectedAnswer === index}
+              />
+              <Label htmlFor={`${currentQuestionIndex}-option-${index}`}>{option.option}</Label>
             </div>
-          ))}
+            ))}
         </RadioGroup>
       </CardContent>
       <CardFooter>
