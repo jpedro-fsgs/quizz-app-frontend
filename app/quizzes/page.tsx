@@ -19,7 +19,7 @@ export default function Quizzes() {
   useEffect(() => {
     const fetchQuizzes = async () => {
       try {
-        const response = await fetch(URL + `:8080/api/quizzes/all`)
+        const response = await fetch(URL + `/api/quizzes/all`)
         if (response.ok) {
           const data = await response.json()
           setQuizzes(data)

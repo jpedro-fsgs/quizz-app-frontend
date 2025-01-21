@@ -2,6 +2,10 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { Button } from "../../components/ui/button"
+import { Input } from "../../components/ui/input"
+import { Label } from "../../components/ui/label"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../../components/ui/card"
 
 interface Question {
   question: string
@@ -50,14 +54,7 @@ export default function CreateQuiz() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // const userId = localStorage.getItem('userId')
-    // if (!userId) {
-    //   console.error('User ID not found')
-    //   return
-    // }
-
     const quizData = {
-      // userId,
       title,
       description,
       questions: questions.map(q => ({
@@ -87,71 +84,76 @@ export default function CreateQuiz() {
   }
 
   return (
-    <div className="max-w-2xl mx-auto">
-      <h1 className="text-2xl font-bold mb-4">Create Quiz</h1>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label htmlFor="title" className="block mb-1">Title</label>
-          <input
-            type="text"
-            id="title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            required
-            className="w-full px-3 py-2 border rounded"
-          />
-        </div>
-        <div>
-          <label htmlFor="description" className="block mb-1">Description</label>
-          <textarea
-            id="description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            required
-            className="w-full px-3 py-2 border rounded"
-          ></textarea>
-        </div>
-        {questions.map((question, qIndex) => (
-          <div key={qIndex} className="border p-4 rounded">
-            <h3 className="text-lg font-semibold mb-2">Question {qIndex + 1}</h3>
-            <input
-              type="text"
-              value={question.question}
-              onChange={(e) => updateQuestion(qIndex, e.target.value)}
-              placeholder="Enter question"
-              className="w-full px-3 py-2 border rounded mb-2"
-            />
-            {question.options.map((option, oIndex) => (
-              <div key={oIndex} className="flex items-center space-x-2 mb-2">
-                <input
-                  type="text"
-                  value={option.option}
-                  onChange={(e) => updateOption(qIndex, oIndex, e.target.value)}
-                  placeholder={`Option ${oIndex + 1}`}
-                  className="flex-grow px-3 py-2 border rounded"
-                />
-                <input
-                  type="radio"
-                  name={`correct-${qIndex}`}
-                  checked={option.isCorrect}
-                  onChange={() => setCorrectAnswer(qIndex, oIndex)}
-                  className="ml-2"
-                />
-                <label>Correct</label>
+    <div className="flex items-center justify-center bg-background">
+      <Card className="w-full max-w-2xl mx-auto mt-8">
+        <CardHeader className="space-y-1">
+          <CardTitle className="text-2xl text-primary">Create Quiz</CardTitle>
+          <CardDescription>Fill in the details below to create a new quiz</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="flex flex-col space-y-1.5">
+              <Label htmlFor="title">Title</Label>
+              <Input
+                id="title"
+                type="text"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                required
+              />
+            </div>
+            <div className="flex flex-col space-y-1.5">
+              <Label htmlFor="description">Description</Label>
+              <Input
+                id="description"
+                type="text"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                required
+              />
+            </div>
+            {questions.map((question, qIndex) => (
+              <div key={qIndex} className="border p-4 rounded space-y-2">
+                <div className="flex flex-col space-y-1.5">
+                  <Label htmlFor={`question-${qIndex}`}>Question {qIndex + 1}</Label>
+                  <Input
+                    id={`question-${qIndex}`}
+                    type="text"
+                    value={question.question}
+                    onChange={(e) => updateQuestion(qIndex, e.target.value)}
+                    required
+                  />
+                </div>
+                {question.options.map((option, oIndex) => (
+                  <div key={oIndex} className="flex items-center space-x-2">
+                    <Input
+                      type="text"
+                      value={option.option}
+                      onChange={(e) => updateOption(qIndex, oIndex, e.target.value)}
+                      placeholder={`Option ${oIndex + 1}`}
+                      className="flex-grow"
+                      required
+                    />
+                    <input
+                      type="radio"
+                      name={`correct-${qIndex}`}
+                      checked={option.isCorrect}
+                      onChange={() => setCorrectAnswer(qIndex, oIndex)}
+                      className="ml-2"
+                    />
+                    <Label>Correct</Label>
+                  </div>
+                ))}
+                <Button type="button" onClick={() => addOption(qIndex)} className="w-full mt-2">Add Option</Button>
               </div>
             ))}
-            <button type="button" onClick={() => addOption(qIndex)} className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 mt-2">
-              Add Option
-            </button>
-          </div>
-        ))}
-        <button type="button" onClick={addQuestion} className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-          Add Question
-        </button>
-        <button type="submit" className="w-full bg-green-500 text-white py-2 rounded hover:bg-green-600">
-          Create Quiz
-        </button>
-      </form>
+            <Button type="button" onClick={addQuestion} className="w-full">Add Question</Button>
+            <CardFooter className="flex justify-between mt-4 px-0">
+              <Button type="submit" className="w-full">Create Quiz</Button>
+            </CardFooter>
+          </form>
+        </CardContent>
+      </Card>
     </div>
   )
 }

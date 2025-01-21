@@ -7,6 +7,8 @@ import { Input } from "../../components/ui/input"
 import { Label } from "../../components/ui/label"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../../components/ui/card"
 
+const URL = process.env.API_URL;
+
 export default function Register() {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
@@ -17,7 +19,7 @@ export default function Register() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     try {
-      const response = await fetch('http://localhost:8080/api/users/register', {
+      const response = await fetch(URL + '/api/users/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
