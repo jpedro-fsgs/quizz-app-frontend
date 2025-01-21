@@ -2,7 +2,6 @@ import './globals.css'
 import { Inter } from 'next/font/google'
 import { AuthProvider } from './contexts/AuthContext'
 import Navbar from '../components/Navbar'
-import { ThemeProvider } from '../components/theme-provider'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -19,7 +18,6 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <AuthProvider>
             <div className="min-h-screen bg-background text-foreground">
               <Navbar />
@@ -28,7 +26,6 @@ export default function RootLayout({
               </main>
             </div>
           </AuthProvider>
-        </ThemeProvider>
       </body>
     </html>
   )

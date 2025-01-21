@@ -2,9 +2,8 @@
 
 import Link from 'next/link'
 import { useAuth } from '../app/contexts/AuthContext'
-import UserMenu from './UserMenu'
 import { Button } from "@/components/ui/button"
-import { ThemeToggle } from './theme-toggle'
+import UserMenu from './UserMenu'
 import { MobileMenu } from './MobileMenu'
 
 export default function Navbar() {
@@ -36,7 +35,6 @@ export default function Navbar() {
             </div>
           </div>
           <div className="flex items-center">
-            <ThemeToggle />
             <div className="hidden md:block ml-4">
               {user ? (
                 <UserMenu />
