@@ -32,11 +32,8 @@ const Profile = () => {
 
     useEffect(() => {
         if (user) {
-            const token = localStorage.getItem("token");
             fetch(`${URL}/api/quizzes/user`, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
+                credentials: 'include',
             })
                 .then((response) => response.json())
                 .then((data) => {
@@ -58,14 +55,10 @@ const Profile = () => {
 
     const handleDelete = async () => {
         if (!quizToDelete) return;
-
-        const token = localStorage.getItem("token");
         try {
             const response = await fetch(`${URL}/api/quizzes/${quizToDelete}`, {
                 method: "DELETE",
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
+                credentials: 'include',
             });
             if (response.ok) {
                 setQuizzes(quizzes.filter((quiz) => quiz.id !== quizToDelete));

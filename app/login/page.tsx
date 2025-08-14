@@ -30,8 +30,10 @@ export default function Login() {
         credentials: 'include',
       })
       if (response.ok) {
+        console.log("teste");
         const data = await response.json()
-        localStorage.setItem('token', data.token)
+        // access_token is now set by the server in an HttpOnly cookie
+        // Keep user info in context/localStorage for UI, but do not store tokens
         login({
           id: data.uuid,
           name: data.name,

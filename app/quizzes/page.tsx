@@ -22,6 +22,7 @@ export default function Quizzes() {
         const response = await fetch(URL + `/api/quizzes/all`)
         if (response.ok) {
           const data = await response.json()
+          console.log(data);
           setQuizzes(data)
         } else {
           console.error('Failed to fetch quizzes')

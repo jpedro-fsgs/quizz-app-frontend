@@ -18,6 +18,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
+  const URL = process.env.API_URL
 
   useEffect(() => {
     const storedUser = localStorage.getItem('user')
@@ -34,7 +35,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const logout = () => {
     setUser(null)
     localStorage.removeItem('user')
-    localStorage.removeItem('token')
+    // Ask backend to clear HttpOnly cookie if endpoint exists
+    if (URL) {
+      fetch(`${URL}/api/auth/logout`, { method: 'POST', credentials: 'include' }).catch(() => {})
+    }
   }
 
   return (
