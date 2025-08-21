@@ -1,15 +1,15 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useAuth } from "../contexts/AuthContext";
-import { Button } from "../../components/ui/button";
+import { useAuth } from "../../../context/AuthContext";
+import { Button } from "../../../components/ui/button";
 import {
     Card,
     CardContent,
     CardFooter,
     CardHeader,
     CardTitle,
-} from "../../components/ui/card";
+} from "../../../components/ui/card";
 import { Quiz } from "@/interfaces/quiz";
 import {
     AlertDialog,
@@ -21,7 +21,7 @@ import {
     AlertDialogDescription,
     AlertDialogAction,
     AlertDialogCancel,
-} from "../../components/ui/alert-dialog";
+} from "../../../components/ui/alert-dialog";
 
 const URL = process.env.API_URL;
 
