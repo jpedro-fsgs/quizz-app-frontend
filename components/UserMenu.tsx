@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { useAuth } from '../app/contexts/AuthContext'
+import { useAuth } from '@/context/AuthContext'
 import { Button } from "./ui/button"
 import {
   DropdownMenu,

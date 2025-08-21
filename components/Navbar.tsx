@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { useAuth } from '../app/contexts/AuthContext'
+import { useAuth } from '@/context/AuthContext'
 import { Button } from "@/components/ui/button"
 import UserMenu from './UserMenu'
 import { MobileMenu } from './MobileMenu'

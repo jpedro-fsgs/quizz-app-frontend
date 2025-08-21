@@ -1,33 +1,33 @@
-import './globals.css'
-import { Inter } from 'next/font/google'
-import { AuthProvider } from './contexts/AuthContext'
-import Navbar from '../components/Navbar'
-
-const inter = Inter({ subsets: ['latin'] })
+import "./globals.css";
+import { AuthProvider } from "../context/AuthContext";
+import { Roboto } from "next/font/google";
 
 export const metadata = {
-  title: 'Quiz App',
-  description: 'A quiz application',
-}
+    title: "Quiz App",
+    description: "A quiz application",
+};
+
+const roboto = Roboto({
+    subsets: ["latin"],
+    weight: ["400", "500", "700"],
+    variable: "--font-sans",
+    display: "swap",
+});
 
 export default function RootLayout({
-  children,
+    children,
 }: {
-  children: React.ReactNode
+    children: React.ReactNode;
 }) {
-  return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={inter.className}>
-          <AuthProvider>
-            <div className="min-h-screen bg-background text-foreground">
-              <Navbar />
-              <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-                {children}
-              </main>
-            </div>
-          </AuthProvider>
-      </body>
-    </html>
-  )
+    return (
+        <html
+            lang="en"
+            className={roboto.variable}
+            // suppressHydrationWarning
+        >
+            <body className="font-sans">
+                <AuthProvider>{children}</AuthProvider>
+            </body>
+        </html>
+    );
 }
-

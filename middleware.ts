@@ -10,7 +10,7 @@ export function middleware(req: NextRequest) {
     '/',
     '/login',
     '/register',
-    'livequiz',
+    '/livequiz',
     '/quizzes',
     /^\/quizzes\/[^/]+$/, // quiz details
     '/favicon.ico',
