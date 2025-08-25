@@ -1,5 +1,7 @@
 "use client";
+
 import React, { useState } from "react";
+import type { JoinRoomDTO, QuizRoomUserDTO } from "../../interfaces/livequiz";
 
 interface JoinRoomProps {
     onJoin: (roomId: string) => void;
@@ -16,16 +18,17 @@ export default function JoinRoom({ onJoin }: JoinRoomProps) {
         setLoading(true);
         setError("");
         try {
+            const payload: JoinRoomDTO = { code };
             const res = await fetch(API_URL + "/api/livequiz/join_room", {
                 method: "POST",
                 credentials: "include",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ code }),
+                body: JSON.stringify(payload),
             });
             if (!res.ok) throw new Error("Código inválido ou sala não encontrada");
-            const data = await res.json();
-            if (data && data.id) {
-                onJoin(data.id);
+            const data: QuizRoomUserDTO = await res.json();
+            if (data && data.quizRoomId) {
+                onJoin(data.quizRoomId);
             } else {
                 setError("Código inválido ou sala não encontrada");
             }

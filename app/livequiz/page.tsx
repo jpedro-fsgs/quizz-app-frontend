@@ -19,8 +19,8 @@ export default function LiveQuizPage() {
                 console.log(API_URL);
                 if (!res.ok) throw new Error("Erro ao buscar sala atual");
                 const data = await res.json();
-                if (data && data.id) {
-                    setRoomId(data.id);
+                if (data && data.quizRoomId) {
+                    setRoomId(data.quizRoomId);
                 } else {
                     setRoomId(null);
                 }

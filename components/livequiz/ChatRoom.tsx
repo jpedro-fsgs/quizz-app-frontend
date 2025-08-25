@@ -2,12 +2,21 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Client, type IMessage } from "@stomp/stompjs";
 
-export type MessageType = "CHAT" | "JOIN" | "LEAVE";
+
 export type MessagePayload = {
     sender: string;
-    content: string;
-    type: MessageType;
+    content: UsersPayload | string;
+    type: "JOIN" | "CHAT";
     timestamp: string;
+};
+
+export type UserPayload = {
+    username: string;
+    id: string;
+};
+
+export type UsersPayload = {
+    users: UserPayload[];
 };
 
 interface ChatRoomProps {
@@ -19,33 +28,31 @@ export default function ChatRoom({ roomId }: ChatRoomProps) {
     const [isConnected, setIsConnected] = useState(false);
     const [message, setMessage] = useState("");
     const [messages, setMessages] = useState<MessagePayload[]>([]);
+    const [activeUsers, setActiveUsers] = useState<UserPayload[]>([]);
     const stompClientRef = useRef<Client | null>(null);
 
     const handleIncoming = (frame: IMessage) => {
         const { body } = frame;
         const payload: MessagePayload = JSON.parse(body);
+        console.log("Mensagem recebida:", payload);
         setMessages((prev) => [...prev, payload]);
+        if (payload.type === "JOIN") {
+            if (typeof payload.content !== "string" && "users" in payload.content) {
+                setActiveUsers(payload.content.users);
+            }
+        }
     };
 
-    const connect = () => {
-        if (!username.trim()) return;
+    // Conecta automaticamente ao websocket ao montar
+    useEffect(() => {
+        console.log(`/topic/quizroom/${roomId}`);
         if (stompClientRef.current?.active || stompClientRef.current?.connected) return;
         const client = new Client({
             brokerURL: process.env.NEXT_PUBLIC_WS_URL || "ws://localhost:8080/ws",
             reconnectDelay: 5000,
             onConnect: () => {
                 setIsConnected(true);
-                client.subscribe(`/topic/quiz/${roomId}`, handleIncoming);
-                const payload: MessagePayload = {
-                    sender: username,
-                    content: "",
-                    type: "JOIN",
-                    timestamp: new Date().toISOString(),
-                };
-                client.publish({
-                    destination: "/app/register",
-                    body: JSON.stringify(payload),
-                });
+                client.subscribe(`/topic/quizroom/${roomId}`, handleIncoming);
             },
             onStompError: (frame) => {
                 console.error("Erro STOMP:", frame.headers["message"], frame.body);
@@ -59,6 +66,27 @@ export default function ChatRoom({ roomId }: ChatRoomProps) {
         });
         stompClientRef.current = client;
         client.activate();
+        return () => {
+            client.deactivate();
+        };
+    }, [roomId]);
+
+    // Envia o JOIN apenas quando o usuário clicar em conectar
+    const connect = () => {
+        if (!username.trim()) return;
+        const client = stompClientRef.current;
+        if (!client?.connected) return;
+        const payload: MessagePayload = {
+            sender: username,
+            content: "",
+            type: "JOIN",
+            timestamp: new Date().toISOString(),
+        };
+        client.publish({
+            destination: `/app/quizroom/${roomId}`,
+            body: JSON.stringify(payload),
+        });
+        setIsConnected(true);
     };
 
     const sendMessage = () => {
@@ -73,17 +101,13 @@ export default function ChatRoom({ roomId }: ChatRoomProps) {
             timestamp: new Date().toISOString(),
         };
         client.publish({
-            destination: "/app/sendMessage",
+            destination: `/app/quizroom/${roomId}`,
             body: JSON.stringify(payload),
         });
         setMessage("");
     };
 
-    useEffect(() => {
-        return () => {
-            stompClientRef.current?.deactivate();
-        };
-    }, []);
+    // ...existing code...
 
     return (
         <div className="space-y-6">
@@ -105,6 +129,23 @@ export default function ChatRoom({ roomId }: ChatRoomProps) {
                     {isConnected ? "Conectado" : "Conectar"}
                 </button>
             </div>
+
+            {/* Exibição de usuários ativos */}
+            <div className="mb-2">
+                <h3 className="text-lg font-medium mb-1">Usuários ativos:</h3>
+                {activeUsers.length === 0 ? (
+                    <span className="text-sm text-gray-500">Nenhum usuário conectado.</span>
+                ) : (
+                    <ul className="flex flex-wrap gap-2">
+                        {activeUsers.map((user) => (
+                            <li key={user.id} className="px-2 py-1 rounded bg-blue-100 text-blue-800 text-xs font-semibold">
+                                {user.username}
+                            </li>
+                        ))}
+                    </ul>
+                )}
+            </div>
+
             <div className="space-y-3">
                 <div className="h-64 overflow-y-auto rounded border p-3 bg-white">
                     {messages.length === 0 ? (
@@ -118,7 +159,7 @@ export default function ChatRoom({ roomId }: ChatRoomProps) {
                                         <span className="text-xs text-gray-400">{new Date(msg.timestamp).toLocaleTimeString()}</span>
                                         <span className="ml-2 text-xs px-2 py-0.5 rounded bg-gray-100 text-gray-600">{msg.type}</span>
                                     </div>
-                                    <div className="ml-2">{msg.content}</div>
+                                    <div className="ml-2">{typeof msg.content === "string" ? msg.content : ""}</div>
                                 </li>
                             ))}
                         </ul>
